@@ -37,10 +37,29 @@ def process_article_data(raw_data):
     pass
 
 
-
 # Longitud de linea: maximo 88 caracteres (Ruff default) - Line length: maximum 88 characters (Ruff default)
 # Identacion: 4 espacions, nunca tabs - Indentation: 4 spaces, never tabs
 # Nombres descriptivos: snake:case para funciones y variables - Descriptive names: snake_case for functions and variables
 # Imports ordenados: estandar → terceros → locales - Ordered imports: standard → third-party → local
 # Lineas en blanco: separar funciones y clases logicamente - Blank lines: logically separate functions and classes
 # Comillas consistentes: usar comillas dobles para strings - Consistent quotes: use double quotes for strings
+
+
+def newsapi_client(api_key, query, timeout=30, attempts=3):
+    """Cliente para NewsAPI. - Client for NewsAPI."""
+    return f"NewsAPI: {query} (timeout={timeout}, attempts={attempts})"
+
+
+def guardian_client(api_key, section, from_date, timeout=30, attempts=3):
+    """Cliente para The Guardian API. - Client for The Guardian API."""
+    return f"The Guardian: {section} (from={from_date}, timeout={timeout}, attempts={attempts})"
+
+
+def ejemplo_args(*args):
+    """Ejemplo de función con argumentos variables. - Example of function with variable arguments."""
+    print(f"TODOS {args}")
+
+
+ejemplo_args(1, 2, 3, "cuatro", "cinco")
+ejemplo_args("noticia1", "noticia2", "noticia3")
+ejemplo_args()
