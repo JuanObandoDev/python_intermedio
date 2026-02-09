@@ -63,3 +63,35 @@ def ejemplo_args(*args):
 ejemplo_args(1, 2, 3, "cuatro", "cinco")
 ejemplo_args("noticia1", "noticia2", "noticia3")
 ejemplo_args()
+
+
+def ejemplo_kwargs(**kwargs):
+    """Ejemplo de función con argumentos keyword variables. - Example of function with variable keyword arguments."""
+    print(f"kwargs type {type(kwargs)}")
+    print(f"kwargs {kwargs}")
+
+
+ejemplo_kwargs(api_key="1234567890abcdef", timeout=20, attempts=5)
+ejemplo_kwargs(section="technology", from_date="2026-01-01")
+ejemplo_kwargs()
+
+
+def fetch_news(api_name, *args, **kwargs):
+    """Función flexible para conectar con la API. - Flexible function to connect with the API."""
+    base_config = {
+        "timeout": API_TIMEOUT,
+        "attempts": MAX_ATTEMPTS,
+    }
+
+    config = {
+        **base_config,  # PEP 8: Uso de ** para combinar diccionarios - Use of ** to combine dictionaries
+        **kwargs,  # Sobrescribe configuracion base con kwargs - Override base configuration with kwargs
+    }
+
+    api_clients = {
+        "newsapi": newsapi_client,
+        "guardian": guardian_client,
+    }
+
+    client = api_clients.get(api_name)
+    client(**args, **config)
