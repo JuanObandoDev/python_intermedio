@@ -45,35 +45,66 @@ def process_article_data(raw_data):
 # Comillas consistentes: usar comillas dobles para strings - Consistent quotes: use double quotes for strings
 
 
+# def ejemplo_args(*args):
+#     """Ejemplo de función con argumentos variables. - Example of function with variable arguments."""
+#     print(f"TODOS {args}")
+
+
+# ejemplo_args(1, 2, 3, "cuatro", "cinco")
+# ejemplo_args("noticia1", "noticia2", "noticia3")
+# ejemplo_args()
+
+
+# def ejemplo_kwargs(**kwargs):
+#     """Ejemplo de función con argumentos keyword variables. - Example of function with variable keyword arguments."""
+#     print(f"kwargs type {type(kwargs)}")
+#     print(f"kwargs {kwargs}")
+
+
+# ejemplo_kwargs(api_key="1234567890abcdef", timeout=20, attempts=5)
+# ejemplo_kwargs(section="technology", from_date="2026-01-01")
+# ejemplo_kwargs()
+
+
+import json
+import os
+import urllib.parse
+import urllib.request
+
+from dotenv import load_dotenv
+
+load_dotenv(
+    dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env")
+)  # Carga variables de entorno desde .env - Load environment variables from .env
+
+API_KEY = os.getenv(
+    "API_KEY"
+)  # PEP 8: Variables de entorno en mayusculas - Environment variables in uppercase
+
+BASE_URL = os.getenv(
+    "BASE_URL"
+)  # PEP 8: Variables de entorno en mayusculas - Environment variables in uppercase
+
+print(
+    f"API_KEY: {API_KEY}, BASE_URL: {BASE_URL}"
+)  # PEP 8: Uso de f-strings para formateo - Use of f-strings for formatting
+
+
 def newsapi_client(api_key, query, timeout=30, attempts=3):
     """Cliente para NewsAPI. - Client for NewsAPI."""
+    query_string = urllib.parse.urlencode({"q": query, "apiKey": api_key})
+    url = f"{BASE_URL}?{query_string}"
+
+    with urllib.request.urlopen(url, timeout=timeout) as response:
+        data = response.read().decode("utf-8")
+        return json.loads(data)
+
     return f"NewsAPI: {query} (timeout={timeout}, attempts={attempts})"
 
 
 def guardian_client(api_key, section, from_date, timeout=30, attempts=3):
     """Cliente para The Guardian API. - Client for The Guardian API."""
     return f"The Guardian: {section} (from={from_date}, timeout={timeout}, attempts={attempts})"
-
-
-def ejemplo_args(*args):
-    """Ejemplo de función con argumentos variables. - Example of function with variable arguments."""
-    print(f"TODOS {args}")
-
-
-ejemplo_args(1, 2, 3, "cuatro", "cinco")
-ejemplo_args("noticia1", "noticia2", "noticia3")
-ejemplo_args()
-
-
-def ejemplo_kwargs(**kwargs):
-    """Ejemplo de función con argumentos keyword variables. - Example of function with variable keyword arguments."""
-    print(f"kwargs type {type(kwargs)}")
-    print(f"kwargs {kwargs}")
-
-
-ejemplo_kwargs(api_key="1234567890abcdef", timeout=20, attempts=5)
-ejemplo_kwargs(section="technology", from_date="2026-01-01")
-ejemplo_kwargs()
 
 
 def fetch_news(api_name, *args, **kwargs):
@@ -93,5 +124,10 @@ def fetch_news(api_name, *args, **kwargs):
         "guardian": guardian_client,
     }
 
-    client = api_clients.get(api_name)
-    client(**args, **config)
+    client = api_clients[api_name]
+    return client(*args, **config)
+
+
+response_data = fetch_news("newsapi", api_key=API_KEY, query="Python")
+for article in response_data["articles"]:
+    print(f"Title: {article['title']}")
