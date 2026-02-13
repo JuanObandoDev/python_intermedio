@@ -85,9 +85,17 @@ BASE_URL = os.getenv(
     "BASE_URL"
 )  # PEP 8: Variables de entorno en mayusculas - Environment variables in uppercase
 
-print(
-    f"API_KEY: {API_KEY}, BASE_URL: {BASE_URL}"
-)  # PEP 8: Uso de f-strings para formateo - Use of f-strings for formatting
+
+class NewsSystemError(Exception):
+    """Excepción personalizada para errores del sistema de noticias."""
+
+    pass
+
+
+class APIKeyError(NewsSystemError):
+    """Excepción personalizada para errores de API key."""
+
+    pass
 
 
 def newsapi_client(api_key, query, timeout=30, attempts=3):
@@ -100,12 +108,7 @@ def newsapi_client(api_key, query, timeout=30, attempts=3):
             data = response.read().decode("utf-8")
             return json.loads(data)
     except urllib.error.URLError:
-        print(
-            "Error: No se pudo conectar a la API."
-        )  # PEP 8: Mensajes de error claros - Clear error messages
-        return {
-            "articles": []
-        }  # Retorna lista vacia en caso de error - Return empty list in case of error
+        raise APIKeyError("Error de conexión a la API.")
 
     return f"NewsAPI: {query} (timeout={timeout}, attempts={attempts})"
 
@@ -145,6 +148,12 @@ def fetch_news(api_name, *args, **kwargs):
         print("Finalizando solicitud a la API.")
 
 
-response_data = fetch_news("newsapi", api_key=API_KEY, query="Python")
-for article in response_data["articles"]:
-    print(f"Title: {article['title']}")
+response_data = None
+try:
+    response_data = fetch_news("newsapi", api_key=API_KEY, query="Python")
+except APIKeyError as api_exc:
+    print(f"Error de API key: {api_exc}")
+
+if response_data:
+    for article in response_data["articles"]:
+        print(f"Title: {article['title']}")
