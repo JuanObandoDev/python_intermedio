@@ -11,3 +11,7 @@ except ValueError:
     print("Error: Debe ingresar un número válido.")
 except ZeroDivisionError:
     print("Error: No se puede dividir por cero.")
+finally:
+    print("Operación finalizada.")
+
+print("Continuando con el resto del programa...")

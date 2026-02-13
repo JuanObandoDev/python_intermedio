@@ -95,9 +95,17 @@ def newsapi_client(api_key, query, timeout=30, attempts=3):
     query_string = urllib.parse.urlencode({"q": query, "apiKey": api_key})
     url = f"{BASE_URL}?{query_string}"
 
-    with urllib.request.urlopen(url, timeout=timeout) as response:
-        data = response.read().decode("utf-8")
-        return json.loads(data)
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            data = response.read().decode("utf-8")
+            return json.loads(data)
+    except urllib.error.URLError:
+        print(
+            "Error: No se pudo conectar a la API."
+        )  # PEP 8: Mensajes de error claros - Clear error messages
+        return {
+            "articles": []
+        }  # Retorna lista vacia en caso de error - Return empty list in case of error
 
     return f"NewsAPI: {query} (timeout={timeout}, attempts={attempts})"
 
@@ -124,8 +132,17 @@ def fetch_news(api_name, *args, **kwargs):
         "guardian": guardian_client,
     }
 
-    client = api_clients[api_name]
-    return client(*args, **config)
+    try:
+        client = api_clients[api_name]
+        return client(*args, **config)
+    except KeyError:
+        print("Error: API no soportada.")
+        return {"articles": []}
+    except Exception as exc:
+        print(f"Error inesperado: {exc}")
+        return {"articles": []}
+    finally:
+        print("Finalizando solicitud a la API.")
 
 
 response_data = fetch_news("newsapi", api_key=API_KEY, query="Python")
