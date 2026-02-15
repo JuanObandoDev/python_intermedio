@@ -1,6 +1,6 @@
 """Ejemplos y explicaciones de comprehensions en Python. - Examples and explanations of comprehensions in Python."""
 
-from sample_data import sample_articles
+from examples.sample_data import sample_articles
 
 
 def extract_titles_traditional(articles):

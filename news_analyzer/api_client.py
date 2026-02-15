@@ -9,7 +9,7 @@ from typing import Callable
 
 from dotenv import load_dotenv
 
-from exceptions import APIKeyError
+from .exceptions import APIKeyError
 
 load_dotenv(
     dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env")
