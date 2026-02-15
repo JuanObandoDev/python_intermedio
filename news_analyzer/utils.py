@@ -57,3 +57,31 @@ def process_article_data(raw_data: dict) -> dict:
 def extract_sources(articles):
     """Extrae fuentes unicas usando un set comprehension - Extracts unique sources using a set comprehension."""
     return list({article["source"]["name"] for article in articles})
+
+
+def get_articles_by_source(articles: list[dict], source: str) -> list[dict]:
+    """
+    Filter articles by a specific news source.
+
+    Args:
+        articles (list[dict]): A list of article dictionaries containing source information.
+        source (str): The name of the news source to filter by.
+
+    Returns:
+        list[dict]: A list of articles that match the specified source name.
+
+    Example:
+        >>> articles = [
+        ...     {"source": {"name": "BBC"}, "title": "News 1"},
+        ...     {"source": {"name": "CNN"}, "title": "News 2"},
+        ...     {"source": {"name": "BBC"}, "title": "News 3"}
+        ... ]
+        >>> get_articles_by_source(articles, "BBC")
+        [{"source": {"name": "BBC"}, "title": "News 1"}, {"source": {"name": "BBC"}, "title": "News 3"}]
+    """
+    return list(
+        filter(
+            lambda article: article["source"]["name"].lower() == source.lower(),
+            articles,
+        )
+    )
