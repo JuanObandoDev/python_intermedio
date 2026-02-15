@@ -1,41 +1,6 @@
-sample_articles = [
-    {
-        "title": "Python logra nuevo exito",
-        "source": {"name": "TechNews"},
-        "description": "Gran noticia",
-        "category": "Tecnología",
-    },
-    {
-        "title": "Economia en crecimiento",
-        "source": {"name": "FinanceDaily"},
-        "description": "Buenas noticias económicas",
-        "category": "Economía",
-    },
-    {
-        "title": "Deportes al rojo vivo",
-        "source": {"name": "SportsCenter"},
-        "description": "Partidos emocionantes",
-        "category": "Deportes",
-    },
-    {
-        "title": "Avances en IA",
-        "source": {"name": "TechNews"},
-        "description": "Nuevas tecnologías",
-        "category": "Tecnología",
-    },
-    {
-        "title": "Mercados bersatiles suben",
-        "source": {"name": "FinanceDaily"},
-        "description": "Inversiones rentables",
-        "category": "Economía",
-    },
-    {
-        "title": "Campeonato mundial",
-        "source": {"name": "SportsCenter"},
-        "description": "Evento deportivo global",
-        "category": "Deportes",
-    },
-]
+"""Ejemplos y explicaciones de comprehensions en Python. - Examples and explanations of comprehensions in Python."""
+
+from sample_data import sample_articles
 
 
 def extract_titles_traditional(articles):
@@ -103,16 +68,16 @@ def categorize(articles):
     }
 
 
-# print(extract_titles_traditional(sample_articles))
-# print("---")
-# print(extract_titles(sample_articles))
+print(extract_titles_traditional(sample_articles))
+print("---")
+print(extract_titles(sample_articles))
 
 
-# print(extract_article_summaries(sample_articles))
+print(extract_article_summaries(sample_articles))
 
-# print(extract_sources_traditional(sample_articles))
-# print("---")
-# print(extract_sources(sample_articles))
+print(extract_sources_traditional(sample_articles))
+print("---")
+print(extract_sources(sample_articles))
 
 print(categorize_traditional(sample_articles))
 print("---")

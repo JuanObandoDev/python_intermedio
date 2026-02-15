@@ -1,4 +1,6 @@
-"""Typing con Python - Type hints with Python."""
+"""Explicaciones y ejemplos de type hints en Python. - Explanations and examples of type hints in Python."""
+
+from typing import Any
 
 # Var = value
 var = 42  # int
@@ -32,9 +34,6 @@ articles: list[dict[str, str]] = [
         "content": "PEP 8 ahora incluye nuevas recomendaciones...",
     },
 ]
-
-
-from typing import Any
 
 
 def process_data(data: Any) -> None:

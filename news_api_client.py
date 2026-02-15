@@ -1,54 +1,26 @@
-# main.py - Todo el código es un archivo - All code is in one file
-"""
-sistema de analisis de noticias con APIs multiples - System of news analysis with multiple APIs
-"""
+"""Modulo para interactuar con APIs de noticias. - Module to interact with news APIs."""
 
-# PEP 8: configuracion centralizada - constantes en MAYUSUCLAS con guiones bajos - central configuration - constants in UPPERCASE with underscores
-API_TIMEOUT = 30
-MAX_ATTEMPTS = 3
-DEFAULT_LANGUAGE = (
-    "es"  # PEP 8: Comillas dobles para strings - Double quotes for strings
-)
+import json
+import os
+import urllib
+import urllib.parse
+import urllib.request
+from typing import Callable
+
+from dotenv import load_dotenv
+
+from exceptions import APIKeyError
+
+load_dotenv(
+    dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env")
+)  # Carga variables de entorno desde .env - Load environment variables from .env
+
+BASE_URL = os.getenv(
+    "BASE_URL"
+)  # PEP 8: Variables de entorno en mayusculas - Environment variables in uppercase
 
 
 # PEP 8: Utilidades comunes del proyecto - funciones en snake_case - Common utilities of the project - functions in snake_case
-def clean_text(text: str) -> str:
-    # PEP 8: 4 espacios por identacion, no tabs - 4 spaces per indentation, no tabs
-    """Limpia y normaliza un texto de entrada.
-
-    Elimina espacios en blanco al inicio y al final y convierte el texto a
-    minusculas. Si el valor es falsy (None o cadena vacia), retorna una cadena
-    vacia.
-
-    Clean and normalize an input string.
-
-    Strips leading/trailing whitespace and lowercases the text. If the value is
-    falsy (None or empty string), returns an empty string.
-
-    Args:
-        text (str): Texto de entrada a limpiar. / Input text to clean.
-
-    Returns:
-        str: Texto normalizado en minusculas o cadena vacia. / Normalized lowercase
-        text or empty string.
-
-    Raises:
-        AttributeError: Si `text` no es una cadena y no tiene `strip`.
-            / If `text` is not a string and lacks `strip`.
-
-    Examples:
-        >>> clean_text("  Hola Mundo  ")
-        'hola mundo'
-        >>> clean_text("")
-        ''
-        >>> clean_text(None)
-        ''
-    """
-    if not text:
-        return ""
-    return text.strip().lower()
-
-
 # PEP 8: Doble linea en blanco entre funciones para separar logicamente - Double blank line between functions to logically separate
 def validate_api_key(api_key: str) -> bool:
     """
@@ -101,125 +73,12 @@ def validate_api_key(api_key: str) -> bool:
     return len(api_key) > 10 and api_key.isalnum()
 
 
-# PEP 8: Funciones principales - argupada despues de utilidades - Main functions - grouped after utilities
-def fetch_news_from_api(api_name, query):
-    """
-    Obtiene noticias de una API específica.
-
-    Busca y recupera artículos de noticias de una API externa especificada,
-    utilizando los parámetros de búsqueda proporcionados.
-
-    Fetches news from a specific API.
-
-    Retrieves and returns news articles from a specified external API using
-    the provided search parameters.
-
-    Args:
-        api_name (str): Nombre de la API a consultar (ej: 'newsapi', 'bbc', 'guardian').
-                        Name of the API to query (e.g., 'newsapi', 'bbc', 'guardian').
-        query (str): Términos de búsqueda para filtrar las noticias.
-                     Search terms to filter news articles.
-
-    Returns:
-        Not implemented yet. / No implementado aún.
-
-    Raises:
-        Not implemented yet. / No implementado aún.
-
-    Examples:
-        Not implemented yet. / No implementado aún.
-    """
-    """Obtiene noticias de una API específica. - Fetches news from a specific API."""
-    pass
-
-
-def process_article_data(raw_data):
-    """
-    Procesa datos crudos de artículos y los transforma en un formato estructurado.
-
-    Processes raw article data and transforms it into a structured format.
-
-    Parameters / Parámetros:
-    -----------
-    raw_data : dict or list
-        Datos crudos del artículo en formato diccionario o lista.
-        Raw article data in dictionary or list format.
-
-    Returns / Retorna:
-    --------
-    not implemented yet. / No implementado aún.
-
-    Raises / Lanza:
-    ------
-    not implemented yet. / No implementado aún.
-
-    Examples / Ejemplos:
-    --------
-    not implemented yet. / No implementado aún.
-    """
-    """Procesa datos crudos de articulos. - Processes raw article data."""
-    pass
-
-
 # Longitud de linea: maximo 88 caracteres (Ruff default) - Line length: maximum 88 characters (Ruff default)
 # Identacion: 4 espacions, nunca tabs - Indentation: 4 spaces, never tabs
 # Nombres descriptivos: snake:case para funciones y variables - Descriptive names: snake_case for functions and variables
 # Imports ordenados: estandar → terceros → locales - Ordered imports: standard → third-party → local
 # Lineas en blanco: separar funciones y clases logicamente - Blank lines: logically separate functions and classes
 # Comillas consistentes: usar comillas dobles para strings - Consistent quotes: use double quotes for strings
-
-
-# def ejemplo_args(*args):
-#     """Ejemplo de función con argumentos variables. - Example of function with variable arguments."""
-#     print(f"TODOS {args}")
-
-
-# ejemplo_args(1, 2, 3, "cuatro", "cinco")
-# ejemplo_args("noticia1", "noticia2", "noticia3")
-# ejemplo_args()
-
-
-# def ejemplo_kwargs(**kwargs):
-#     """Ejemplo de función con argumentos keyword variables. - Example of function with variable keyword arguments."""
-#     print(f"kwargs type {type(kwargs)}")
-#     print(f"kwargs {kwargs}")
-
-
-# ejemplo_kwargs(api_key="1234567890abcdef", timeout=20, attempts=5)
-# ejemplo_kwargs(section="technology", from_date="2026-01-01")
-# ejemplo_kwargs()
-
-
-import json
-import os
-import urllib.parse
-import urllib.request
-
-from dotenv import load_dotenv
-
-load_dotenv(
-    dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env")
-)  # Carga variables de entorno desde .env - Load environment variables from .env
-
-API_KEY = os.getenv(
-    "API_KEY"
-)  # PEP 8: Variables de entorno en mayusculas - Environment variables in uppercase
-
-BASE_URL = os.getenv(
-    "BASE_URL"
-)  # PEP 8: Variables de entorno en mayusculas - Environment variables in uppercase
-
-
-class NewsSystemError(Exception):
-    """Excepción personalizada para errores del sistema de noticias."""
-
-    pass
-
-
-class APIKeyError(NewsSystemError):
-    """Excepción personalizada para errores de API key."""
-
-    pass
 
 
 def newsapi_client(
@@ -283,6 +142,19 @@ def newsapi_client(
 
 
 def guardian_client(api_key, section, from_date, timeout=30, attempts=3):
+    """
+    Client for The Guardian API.
+
+    Args:
+        api_key (str): API key for authentication with The Guardian API.
+        section (str): News section to retrieve articles from.
+        from_date (str): Start date for filtering articles (format: YYYY-MM-DD).
+        timeout (int, optional): Request timeout in seconds. Defaults to 30.
+        attempts (int, optional): Number of retry attempts for failed requests. Defaults to 3.
+
+    Returns:
+        str: Formatted string containing the API client configuration details.
+    """
     """Cliente para The Guardian API. - Client for The Guardian API."""
     return f"The Guardian: {section} (from={from_date}, timeout={timeout}, attempts={attempts})"
 
@@ -336,9 +208,12 @@ def fetch_news(api_name, *args, **kwargs):
     """
     """Función flexible para conectar con la API. - Flexible function to connect with the API."""
 
+    if api_name not in ("newsapi", "guardian"):
+        raise ValueError("API no soportada. Use 'newsapi' o 'guardian'.")
+
     base_config = {
-        "timeout": API_TIMEOUT,
-        "attempts": MAX_ATTEMPTS,
+        "timeout": 30,
+        "attempts": 3,
     }
 
     config = {
@@ -346,30 +221,10 @@ def fetch_news(api_name, *args, **kwargs):
         **kwargs,  # Sobrescribe configuracion base con kwargs - Override base configuration with kwargs
     }
 
-    api_clients = {
+    api_clients: dict[str, Callable] = {
         "newsapi": newsapi_client,
         "guardian": guardian_client,
     }
 
-    try:
-        client = api_clients[api_name]
-        return client(*args, **config)
-    except KeyError:
-        print("Error: API no soportada.")
-        return {"articles": []}
-    except Exception as exc:
-        print(f"Error inesperado: {exc}")
-        return {"articles": []}
-    finally:
-        print("Finalizando solicitud a la API.")
-
-
-response_data = None
-try:
-    response_data = fetch_news("newsapi", api_key=API_KEY, query="Python")
-except APIKeyError as api_exc:
-    print(f"Error de API key: {api_exc}")
-
-if response_data:
-    for article in response_data["articles"]:
-        print(f"Title: {article['title']}")
+    client = api_clients[api_name]
+    return client(*args, **config)

@@ -1,3 +1,6 @@
+"""Ejemplo de manejo de excepciones con try-except. - Example of exception handling with try-except."""
+
+
 class DivisionError(Exception):
     """Excepción personalizada para errores de división."""
 
