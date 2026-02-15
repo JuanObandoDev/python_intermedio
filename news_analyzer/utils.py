@@ -52,3 +52,8 @@ def process_article_data(raw_data: dict) -> dict:
         dict: Diccionario con datos procesados y normalizados del artículo.
     """
     return {}
+
+
+def extract_sources(articles):
+    """Extrae fuentes unicas usando un set comprehension - Extracts unique sources using a set comprehension."""
+    return list({article["source"]["name"] for article in articles})
