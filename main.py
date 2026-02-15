@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 
 from news_analyzer.api_client import fetch_news
 from news_analyzer.exceptions import APIKeyError
-from news_analyzer.utils import extract_sources, get_articles_by_source
+from news_analyzer.utils import (
+    extract_sources,
+    get_articles_by_source,
+    get_reading_time,
+)
 
 load_dotenv(
     dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env")
@@ -29,8 +33,14 @@ if response_data:
     for index, source in enumerate(sources_list, start=1):
         print(f"{index}. {source}")
 
-    for article in response_data["articles"]:
-        print(f"Title: {article['title']}")
+    articles = list(map(get_reading_time, response_data["articles"]))
+    for article in articles:
+        print(
+            f"Title: {article['title']} - Estimated Reading Time: {article['reading_time']} minutes"
+        )
+
+    # for article in response_data["articles"]:
+    #     print(f"Title: {article['title']}")
 
     xataka_articles = get_articles_by_source(response_data["articles"], "xataka.com")
     for article in xataka_articles:

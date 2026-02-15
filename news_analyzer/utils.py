@@ -85,3 +85,29 @@ def get_articles_by_source(articles: list[dict], source: str) -> list[dict]:
             articles,
         )
     )
+
+
+def get_reading_time(article: dict) -> dict:
+    """
+    Calculate and add the estimated reading time to an article.
+
+    Estimates the reading time based on the content length, assuming an average
+    reading speed of 200 words per minute.
+
+    Args:
+        article (dict): A dictionary containing article data with a "content" key
+                       that holds the article text.
+
+    Returns:
+        dict: The same article dictionary with an added "reading_time" key
+              containing the estimated number of minutes to read.
+
+    Example:
+        >>> article = {"content": "word " * 250}
+        >>> result = get_reading_time(article)
+        >>> result["reading_time"]
+        2
+    """
+    minutes = len(article["content"]) // 200 + 1
+    article["reading_time"] = minutes
+    return article
